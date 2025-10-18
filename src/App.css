@@ -1,0 +1,39 @@
+#root {
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+.board {
+  padding: 10px;
+  background-color: blue;
+  border-radius: 20px;
+  margin: 30px;
+}
+.rows {
+   
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+.tile {
+  height: 75px;
+  cursor: pointer;
+}
+.circle {
+  border-radius: 100px;
+  height: 65px;
+  width: 65px;
+}
+
+.open {
+  background-color: white;
+}
+.player1 {
+  background-color: red;
+  transition: background-color 0.25s;
+}
+.player2 {
+  background-color: rgb(250, 230, 48);
+  transition: background-color 0.25s;
+}
