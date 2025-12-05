@@ -100,9 +100,6 @@ function hasWinner(board: Board, player: Cell): boolean {
   return false;
 }
 
-function isBoardFull(board: Board): boolean {
-  return board.every((row) => row.every((cell) => cell !== 0));
-}
 
 function getValidColumns(board: Board): number[] {
   const valid: number[] = [];
