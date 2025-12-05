@@ -1,0 +1,37 @@
+Connect 4
+Beatriz Torres,
+Jake EstradaOverview
+A classic Connect Four implementation built with React and
+TypeScript, featuring an interactive game board where a human
+player competes against an AI opponent powered by minimax
+algorithm with alpha-beta pruning to connect four pieces in a
+row horizontally, vertically, or diagonally.3
+Problem Formulation (State-Space Representation)
+●State Representation: The game state is represented as a 6×7 grid Board, where
+each cell can be empty, occupied by the human player, or occupied by the AI.
+●Actions/Operators: Valid actions are dropping a piece into any of the 7 columns
+that are not full. The dropPiece function places the piece in the lowest available
+row of the selected column and generating a new board state.
+●Goal State: A terminal state is reached when either player achieves four
+consecutive pieces horizontally, vertically, or diagonally, or when the board is
+completely filled resulting in a draw.4
+AI Technique Used
+●Minimax algorithm
+○ The AI evaluates future moves to decide the best
+●Depth-limited search
+○ Rather than just thinking about the next move, it thinks multiple turns
+ahead.
+●Alpha-beta pruning
+○ Removes unnecessary branches and speed up calculation
+●Heuristic evaluation to scoreboard states
+○ Prefers center control + 3-in-a-row setups
+○ Blocks opponent winning moves
+○ Detects whether or not it’s winning or losing
+○5
+ImplementationHeuristic Evaluation Score Board:
+Minimax:
+alpha-beta pruning
+Blocks when human threat7
+DemoResultsChallenges10
+What We Learned11
+Possible ImprovementsTHANK YOU

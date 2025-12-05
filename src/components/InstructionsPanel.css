@@ -1,0 +1,104 @@
+.instructions-panel {
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+  border: 2px solid rgba(249, 115, 22, 0.3);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  width: 90%;
+  color: #f9fafb;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.instructions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(249, 115, 22, 0.3);
+  padding-bottom: 1rem;
+}
+
+.instructions-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.close-instructions {
+  background: rgba(75, 85, 99, 0.6);
+  border: 1px solid rgba(156, 163, 175, 0.3);
+  color: #f9fafb;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.close-instructions:hover {
+  background: rgba(249, 115, 22, 0.3);
+  transform: rotate(90deg);
+}
+
+.instructions-content {
+  line-height: 1.6;
+}
+
+.instruction-section {
+  margin-bottom: 1.5rem;
+}
+
+.instruction-section:last-child {
+  margin-bottom: 0;
+}
+
+.instruction-section h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.2rem;
+  color: #f97316;
+  font-weight: 600;
+}
+
+.instruction-section p {
+  margin: 0.5rem 0;
+  color: #e5e7eb;
+}
+
+.instruction-section ol,
+.instruction-section ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  color: #e5e7eb;
+}
+
+.instruction-section li {
+  margin: 0.5rem 0;
+}
+
+.instruction-section strong {
+  color: #f97316;
+  font-weight: 600;
+}
+
