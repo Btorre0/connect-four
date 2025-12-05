@@ -111,7 +111,6 @@ function getValidColumns(board: Board): number[] {
 
 // ---------- Heuristic evaluation ----------
 
-// Evaluate a 4-cell window for the heuristic
 function evaluateWindow(window: Cell[]): number {
   const aiCount = window.filter((c) => c === AI).length;
   const humanCount = window.filter((c) => c === HUMAN).length;
@@ -126,7 +125,6 @@ function evaluateWindow(window: Cell[]): number {
     score += 4;
   }
 
-  // Strong patterns for human (bad for us)
   if (humanCount === 3 && emptyCount === 1) {
     score -= 8;
   } else if (humanCount === 2 && emptyCount === 2) {
@@ -267,7 +265,6 @@ export function chooseAIMove(board: Board): number | null {
   const valid = getValidColumns(board);
   if (valid.length === 0) return null;
 
-  // Run minimax from this position -- slides for more info
   const { column } = minimax(
     board,
     SEARCH_DEPTH,
@@ -276,7 +273,6 @@ export function chooseAIMove(board: Board): number | null {
     true
   );
 
-  // Safety fallback
   if (column === null) {
     const validCols = getValidColumns(board);
     if (validCols.length === 0) return null;
