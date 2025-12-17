@@ -1,3 +1,67 @@
+# Connect Four – Human vs AI
+
+Live Demo: https://btorre0.github.io/connect-four/  
+GitHub Repository: https://github.com/Btorre0/connect-four
+
+## System Requirements
+- Node.js v18 or higher
+- npm (comes with Node.js)
+- Modern web browser (Chrome, Firefox, Edge)
+
+## Technologies Used
+- TypeScript
+- React
+- Vite
+- GitHub Pages
+
+## Contributors
+- Beatriz Torres Archundia
+- Anh Mai
+
+---
+
+## Installation Instructions
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Btorre0/connect-four.git
+cd connect-four
+```
+
+2. Install Dependencies:
+```bash
+npm install
+```
+
+## Running the Application (Local)
+
+To start the dev server:
+
+```bash
+npm run dev
+```
+
+then open the brower at
+
+```
+http://localhost:5173
+```
+
+## Production Build
+To build the project:
+
+```bash
+npm run build
+```
+
+## Deployement
+The application is deployed using GitHub Pages
+Publi URL:
+```bash
+https://btorre0.github.io/connect-four/
+```
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
