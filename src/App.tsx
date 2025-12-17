@@ -1,156 +1,107 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import type { Board, Cell } from "./ai";
-import { ROWS, COLS, HUMAN, AI, chooseAIMove } from "./ai";
 
-const createEmptyBoard = (): Board =>
-  Array.from({ length: ROWS }, () =>
-    Array.from({ length: COLS }, () => 0 as Cell)
-  );
+import type { Board, Player } from "./game/types";
+import { createEmptyBoard } from "./game/createBoard";
+import { dropPiece } from "./game/dropPiece";
+import { checkWin } from "./game/checkWin";
+import { isBoardFull } from "./game/utils";
+import { chooseAIMove, HUMAN_PLAYER, AI_PLAYER } from "./game/ai";
+import { Rows, Columns } from "./game/constaints";
+
+type Winner = Player | "draw" | null;
 
 function App() {
-  const [board, setBoard] = useState<Board>(createEmptyBoard);
-  const [currentPlayer, setCurrentPlayer] = useState<Cell>(HUMAN);
-  const [winner, setWinner] = useState<Cell | "draw" | 0>(0);
+  const [board, setBoard] = useState<Board>(() => createEmptyBoard());
+  const [currentPlayer, setCurrentPlayer] = useState<Player>(HUMAN_PLAYER);
+  const [winner, setWinner] = useState<Winner>(null);
   const [isAITurn, setIsAITurn] = useState(false);
-  const [message, setMessage] = useState<string>("Your turn!");
+  const [message, setMessage] = useState("Your turn!");
+  const [lastMove, setLastMove] = useState<{ r: number; c: number } | null>(null);
 
-  // Drop a piece for the given player in a column on the *real* board
-  const dropOnRealBoard = (
-    b: Board,
-    col: number,
-    player: Cell
-  ): { board: Board; row: number } | null => {
-    const newBoard = b.map((row) => [...row]);
-    for (let row = ROWS - 1; row >= 0; row--) {
-      if (newBoard[row][col] === 0) {
-        newBoard[row][col] = player;
-        return { board: newBoard, row };
-      }
-    }
-    return null;
-  };
-
-  const checkWinAt = (b: Board, row: number, col: number, player: Cell): boolean => {
-    if (player === 0) return false;
-
-    const dirs = [
-      [0, 1],
-      [1, 0],
-      [1, 1],
-      [1, -1]
-    ];
-
-    for (const [dr, dc] of dirs) {
-      let count = 1;
-
-      let r = row + dr;
-      let c = col + dc;
-      while (r >= 0 && r < ROWS && c >= 0 && c < COLS && b[r][c] === player) {
-        count++;
-        r += dr;
-        c += dc;
-      }
-
-      r = row - dr;
-      c = col - dc;
-      while (r >= 0 && r < ROWS && c >= 0 && c < COLS && b[r][c] === player) {
-        count++;
-        r -= dr;
-        c -= dc;
-      }
-
-      if (count >= 4) return true;
-    }
-
-    return false;
-  };
-
-  const isBoardFull = (b: Board): boolean =>
-    b.every((row) => row.every((cell) => cell !== 0));
-
-  // Handle human click
   const handleColumnClick = (col: number) => {
-    if (winner !== 0) return;
-    if (currentPlayer !== HUMAN) return;
+    if (winner !== null) return;
+    if (currentPlayer !== HUMAN_PLAYER) return;
     if (isAITurn) return;
 
-    const result = dropOnRealBoard(board, col, HUMAN);
+    const result = dropPiece(board, col, HUMAN_PLAYER);
     if (!result) return;
 
-    const { board: newBoard, row } = result;
-    const humanWon = checkWinAt(newBoard, row, col, HUMAN);
+    setBoard(result.board);
+    setLastMove({ r: result.row, c: col });
 
-    setBoard(newBoard);
-
-    if (humanWon) {
-      setWinner(HUMAN);
-      setMessage("You win! 🎉");
+    if (checkWin(result.board, HUMAN_PLAYER)) {
+      setWinner(HUMAN_PLAYER);
+      setMessage("You win!!!");
       return;
     }
 
-    if (isBoardFull(newBoard)) {
+    if (isBoardFull(result.board)) {
       setWinner("draw");
       setMessage("It's a draw.");
       return;
     }
 
-    // Switch to AI
-    setCurrentPlayer(AI);
+    setCurrentPlayer(AI_PLAYER);
     setIsAITurn(true);
     setMessage("AI is thinking...");
   };
 
-  // Let the AI move automatically on its turn
   useEffect(() => {
     if (!isAITurn) return;
-    if (winner !== 0) return;
-    if (currentPlayer !== AI) return;
+    if (winner !== null) return;
+    if (currentPlayer !== AI_PLAYER) return;
 
     const timeout = setTimeout(() => {
       const col = chooseAIMove(board);
       if (col === null) {
-        setIsAITurn(false);
+        setWinner("draw");
         setMessage("No moves left.");
+        setIsAITurn(false);
         return;
       }
 
-      const result = dropOnRealBoard(board, col, AI);
+      const result = dropPiece(board, col, AI_PLAYER);
       if (!result) {
         setIsAITurn(false);
-        setCurrentPlayer(HUMAN);
+        setCurrentPlayer(HUMAN_PLAYER);
         setMessage("Your turn!");
         return;
       }
 
-      const { board: newBoard, row } = result;
-      const aiWon = checkWinAt(newBoard, row, col, AI);
+      setBoard(result.board);
+      setLastMove({ r: result.row, c: col });
 
-      setBoard(newBoard);
-
-      if (aiWon) {
-        setWinner(AI);
-        setMessage("You lose!");
-      } else if (isBoardFull(newBoard)) {
+      if (checkWin(result.board, AI_PLAYER)) {
+        setWinner(AI_PLAYER);
+        setMessage("AI wins!!!");
+      } else if (isBoardFull(result.board)) {
         setWinner("draw");
         setMessage("It's a draw.");
       } else {
-        setCurrentPlayer(HUMAN);
+        setCurrentPlayer(HUMAN_PLAYER);
         setMessage("Your turn!");
       }
 
       setIsAITurn(false);
-    }, 400);
+    }, 300);
 
     return () => clearTimeout(timeout);
   }, [isAITurn, currentPlayer, winner, board]);
 
   const handleReset = () => {
     setBoard(createEmptyBoard());
-    setCurrentPlayer(HUMAN);
-    setWinner(0);
+    setCurrentPlayer(HUMAN_PLAYER);
+    setWinner(null);
     setIsAITurn(false);
+    setLastMove(null);
     setMessage("Your turn!");
+  };
+
+  const renderCellClass = (player: Player) => {
+    if (player === HUMAN_PLAYER) return "cell human";
+    if (player === AI_PLAYER) return "cell ai";
+    return "cell";
   };
 
   return (
@@ -158,20 +109,21 @@ function App() {
       <h1>Connect Four – Human vs AI</h1>
       <p className="status">{message}</p>
 
-      <div className="board">
-        {board.map((row, rIndex) => (
+      <div className={`board ${isAITurn ? "thinking" : ""}`}>
+        {board.rows.map((row, rIndex) => (
           <div key={rIndex} className="row">
-            {row.map((cell, cIndex) => (
+            {row.columns.map((colObj, cIndex) => (
               <button
                 key={cIndex}
-                className={`cell ${cell === HUMAN ? "human" : ""} ${
-                  cell === AI ? "ai" : ""
+                className={`${renderCellClass(colObj.player)} ${
+                  lastMove?.r === rIndex && lastMove?.c === cIndex ? "drop" : ""
                 }`}
                 onClick={() => handleColumnClick(cIndex)}
-                disabled={winner !== 0 || currentPlayer !== HUMAN || isAITurn}
-              >
-                {/* empty – purely visual via CSS */}
-              </button>
+                disabled={
+                  winner !== null || currentPlayer !== HUMAN_PLAYER || isAITurn
+                }
+                aria-label={`Column ${cIndex + 1}`}
+              />
             ))}
           </div>
         ))}
@@ -185,6 +137,10 @@ function App() {
         <span className="dot human" /> You
         <span className="dot ai" /> AI
       </div>
+
+      <p style={{ opacity: 0.6, marginTop: 8, fontSize: 12 }}>
+        Board size: {Rows} × {Columns}
+      </p>
     </div>
   );
 }

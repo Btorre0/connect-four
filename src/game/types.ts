@@ -1,11 +1,13 @@
-export interface Board {
-    rows: Row[]
-}
+export type Player = "red" | "yellow" | null;
 
-export interface Row {
-    columns: Column[]
-}
+export type Column = {
+  player: Player;
+};
 
-export interface Column {
-    player: number | null
-}
+export type Row = {
+  columns: Column[];
+};
+
+export type Board = {
+  rows: Row[];
+};

@@ -85,3 +85,41 @@ h1 {
 .legend .ai {
   background: #3b82f6;
 }
+
+
+.cell:hover:enabled {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.cell {
+  transition: transform 140ms ease, filter 140ms ease;
+}
+
+
+@keyframes dropIn {
+  0% {
+    transform: translateY(-28px) scale(0.92);
+    opacity: 0.2;
+  }
+  70% {
+    transform: translateY(2px) scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cell.drop.human,
+.cell.drop.ai {
+  animation: dropIn 260ms ease-out;
+}
+
+/* Optional: subtle AI thinking shimmer on board */
+.board.thinking {
+  outline: 2px solid rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.08);
+  transition: box-shadow 200ms ease, outline 200ms ease;
+}
+
