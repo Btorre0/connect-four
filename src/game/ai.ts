@@ -12,7 +12,7 @@ export const AI_PLAYER: Player = "yellow";
 const SEARCH_DEPTH = 5;
 
 type MinimaxResult = { column: number | null; score: number };
-
+// Evaluate a window of 4 cells and return a score
 function evaluateWindow(window: Player[]): number {
   const aiCount = window.filter((p) => p === AI_PLAYER).length;
   const humanCount = window.filter((p) => p === HUMAN_PLAYER).length;

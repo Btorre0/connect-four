@@ -17,7 +17,8 @@ GitHub Repository: https://github.com/Btorre0/connect-four
 ## Contributors
 - Beatriz Torres Archundia
 - Anh Mai
-
+- Jake Estrada
+- Yaser Zada
 ---
 
 ## Installation Instructions

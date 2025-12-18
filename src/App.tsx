@@ -10,7 +10,7 @@ import { chooseAIMove, HUMAN_PLAYER, AI_PLAYER } from "./game/ai";
 import { Rows, Columns } from "./game/constaints";
 
 type Winner = Player | "draw" | null;
-
+// Main App Component
 function App() {
   const [board, setBoard] = useState<Board>(() => createEmptyBoard());
   const [currentPlayer, setCurrentPlayer] = useState<Player>(HUMAN_PLAYER);
